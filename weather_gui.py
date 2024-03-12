@@ -6,7 +6,37 @@ from PIL import Image, ImageTk
 class WeatherApp(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Weather App")
+        self.title("Weather App")import requests
+
+def get_weather(api_key, location):
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={location}&appid={api_key}&units=metric"
+    response = requests.get(url)
+    data = response.json()
+
+    if data["cod"] == "404":
+        print("City not found. Please check the spelling.")
+        return None
+
+    weather_info = {
+        "Location": data["name"],
+        "Temperature": data["main"]["temp"],
+        "Humidity": data["main"]["humidity"],
+        "Weather": data["weather"][0]["description"],
+    }
+    return weather_info
+
+def main():
+    api_key = "47bd6ef51921a1a076d24c59c27c013c"  
+    location = input("Enter city name or ZIP code: ")
+    weather_info = get_weather(api_key, location)
+    if weather_info:
+        print("\nCurrent Weather:")
+        for key, value in weather_info.items():
+            print(f"{key}: {value}")
+
+if __name__ == "__main__":
+    main()
+
         self.geometry("600x400")
         self.api_key = "47bd6ef51921a1a076d24c59c27c013c"  # Replace with your OpenWeatherMap API key
 
