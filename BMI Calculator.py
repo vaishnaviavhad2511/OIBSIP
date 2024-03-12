@@ -5,7 +5,7 @@ def reset_entry():
     age_tf.delete(0, 'end')
     height_tf.delete(0, 'end')
     weight_tf.delete(0, 'end')
-
+    
 def calculate_bmi():
     try:
         kg = float(weight_tf.get())
